@@ -59,7 +59,7 @@
   function openModal(name) {
     if (!modal) return;
     var msg = modal.querySelector(".js-ok-msg");
-    msg.textContent = (name ? "Gracias, " + name + ". " : "") + "La revisamos y te enviamos tu informe por email en menos de 24 horas.";
+    msg.textContent = "Gracias por confiar en Vatio Justo. La revisamos y te enviamos tu informe por email en menos de 24 horas.";
     modal.hidden = false;
     modal.querySelector(".js-ok-close").focus();
   }
@@ -74,7 +74,6 @@
   var pending = null;
   if (sink) {
     sink.addEventListener("load", function () {
-      console.log("[VJ] respuesta recibida (iframe load)", !!pending);
       if (!pending) return;
       var p = pending; pending = null;
       clearTimeout(p.timer);
@@ -99,13 +98,12 @@
   var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
   document.querySelectorAll(".js-lead").forEach(function (form) {
     form.addEventListener("submit", function (e) {
-      console.log("[VJ] submit pulsado");
       var err = form.querySelector(".form-err");
       var el = form.elements;
       var empresa = (el.empresa.value || "").trim();
       var email = (el.email.value || "").trim();
       var file = el.factura.files && el.factura.files[0];
-      var fail = function (msg, field) { e.preventDefault(); console.log("[VJ] validación:", msg); err.textContent = msg; if (field) field.focus(); };
+      var fail = function (msg, field) { e.preventDefault(); err.textContent = msg; if (field) field.focus(); };
 
       if (!empresa) return fail("Escribe el nombre de tu negocio.", el.empresa);
       if (!EMAIL_RE.test(email)) return fail("Escribe un email válido para enviarte el informe.", el.email);
@@ -122,7 +120,6 @@
       var label = btn.innerHTML;
       btn.disabled = true;
       btn.textContent = "Enviando…";
-      console.log("[VJ] enviando a FormSubmit…");
       // native POST into the hidden iframe (supports the file upload)
       pending = { form: form, btn: btn, label: label, name: empresa };
       pending.timer = setTimeout(function () { if (pending) { var p = pending; pending = null; finish(p); } }, 25000);
