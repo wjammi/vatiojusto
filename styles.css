@@ -8,7 +8,7 @@
 :root{
   --navy:#13213A; --navy-2:#0B1624; --ink:#13213A; --body:#3B4B63; --muted:#5A6A80;
   --line:#E6E9EE; --paper:#F6F6F1; --white:#FFFFFF;
-  --volt:#F5C518; --green:#2F7D4F; --green-dark:#1F5E3A; --green-soft:#EAF5EE; --wa:#1E9E57;
+  --volt:#7BF40D; --green:#2F7D4F; --green-dark:#1F5E3A; --green-soft:#EAF5EE; --wa:#1E9E57;
   --display:"Nunito","Figtree",system-ui,sans-serif;
   --text:"Figtree","Segoe UI",system-ui,sans-serif;
   --mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
@@ -37,7 +37,11 @@ input,select,button{font:inherit}
 .ico{width:20px;height:20px;flex:none}
 
 /* header */
-.hdr{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:saturate(1.4) blur(8px);border-bottom:1px solid #ECEEF1}
+.hdr{position:sticky;top:0;z-index:20;background:#0A0A0A;color:#fff;border-bottom:1px solid #1d1d1d}
+.hdr .btn-ghost{border-color:rgba(255,255,255,.55);color:#fff}
+.hdr .nav a{color:rgba(255,255,255,.88)}
+.hdr .nav a:hover{color:var(--volt)}
+.brand-logo{display:block;height:48px;width:auto}
 .hdr .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-block:14px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
 .brand span{white-space:nowrap;font-family:var(--display);font-weight:900;font-size:25px;letter-spacing:-.02em}
@@ -194,7 +198,7 @@ input,select,button{font:inherit}
 @media (max-width:760px){
   body{font-size:16px}
   .brand span{font-size:21px}
-  .brand svg,.brand img{width:34px;height:34px}
+  .brand-logo{height:38px}
   .hdr .wrap{padding-inline:16px;gap:12px}
   .hdr-cta .btn{padding:9px 14px;font-size:14px}
   .nav,.hdr-cta .btn-ghost,.points,.hero-img,.sticky-text{display:none}
