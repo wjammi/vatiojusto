@@ -212,6 +212,7 @@ input,select,button{font:inherit}
   .hero .wrap{padding-block:28px 48px;gap:28px}
   .sec{padding-block:64px}
   .card-form,.report,.final form{padding:22px;border-radius:20px}
+  .card-form h2{font-size:clamp(17px,5.4vw,28px);white-space:nowrap;letter-spacing:-.01em}
   .grid{grid-template-columns:1fr}
   .band,.guar{padding:28px 24px;border-radius:24px}
   .sticky-btns{flex:1}
