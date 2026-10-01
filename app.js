@@ -59,7 +59,7 @@
   function openModal(name) {
     if (!modal) return;
     var msg = modal.querySelector(".js-ok-msg");
-    msg.textContent = "Gracias por confiar en Vatio Justo. La revisamos y te enviamos tu informe por email en menos de 24 horas.";
+    msg.textContent = (name ? "Gracias, " + name + ". " : "") + "La revisamos y te enviamos tu informe por email en menos de 24 horas.";
     modal.hidden = false;
     modal.querySelector(".js-ok-close").focus();
   }
