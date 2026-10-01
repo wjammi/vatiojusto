@@ -70,14 +70,14 @@
     <div class="card-form" id="revision">
       <div>
         <h2>Tu revisión gratis en 24 h</h2>
-        <p class="sub">Te respondemos por WhatsApp con tu informe.</p>
+        <p class="sub">Te enviamos tu informe por email.</p>
       </div>
       <ol class="how-mini">
-        <li><span class="n">1</span>Escribe el nombre de tu negocio</li>
-        <li><span class="n">2</span>Se abre WhatsApp con el mensaje listo</li>
-        <li><span class="n">3</span>Adjunta una foto de tu factura y envía</li>
+        <li><span class="n">1</span>Escribe tu negocio y tu email</li>
+        <li><span class="n">2</span>Sube una foto o PDF de tu factura</li>
+        <li><span class="n">3</span>Recibe tu informe en 24 h</li>
       </ol>
-      <form class="js-lead" novalidate>
+      <form class="js-lead" action="https://formsubmit.co/contacto@vatiojusto.com" method="POST" enctype="multipart/form-data" target="lead-sink" novalidate><input type="hidden" name="_subject" value="Nueva factura recibida"><input type="hidden" name="_template" value="table"><input type="hidden" name="_captcha" value="false"><input type="hidden" name="_next" value="https://vatiojusto.com/gracias.html"><input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
         <div style="display:flex;flex-direction:column;gap:14px">
           <label class="field" for="h-empresa">Nombre del negocio
             <input id="h-empresa" name="empresa" type="text" autocomplete="organization" required>
@@ -88,12 +88,22 @@
               <option>Hotel o apartamentos</option><option>Restaurante o bar</option><option>Gimnasio</option><option>Lavandería</option><option>Supermercado o tienda</option><option>Comunidad de vecinos</option><option>Oficina</option><option>Otro</option>
             </select>
           </label>
+          <label class="field" for="h-email">Tu email
+            <input id="h-email" name="email" type="email" autocomplete="email" inputmode="email" required>
+          </label>
+          <div class="field">Tu factura de luz
+            <label class="drop" for="h-factura">
+              <input id="h-factura" name="factura" type="file" accept="image/*,application/pdf" required>
+              <span class="drop-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg></span>
+              <span class="drop-txt"><b>Sube una foto o PDF</b><small>Desde el móvil puedes hacer la foto directamente</small></span>
+            </label>
+          </div>
           <label class="consent" for="h-consent"><input id="h-consent" name="consent" type="checkbox" required><span>He leído la <a href="privacidad.html">política de privacidad</a> y acepto que usen mis datos para preparar la revisión.</span></label>
           <p class="form-err" role="alert" aria-live="polite"></p>
-          <button class="btn btn-wa" type="submit"><svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg>Enviar mi factura por WhatsApp</button>
+          <button class="btn btn-volt" type="submit">Enviar mi factura<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
         </div>
       </form>
-      <p class="alt">¿Prefieres email? Envíala a <a href="mailto:contacto@vatiojusto.com">contacto@vatiojusto.com</a></p>
+      <p class="alt">¿Prefieres WhatsApp? <a class="js-wa" href="https://wa.me/34663192105">Escríbenos aquí</a></p>
     </div>
   </div>
 </section>
@@ -158,7 +168,7 @@
       <p class="lead">Sin llamadas comerciales, sin visitas y sin trámites por tu parte.</p>
     </div>
     <ol class="steps">
-      <li class="step"><div class="step-top"><span class="step-n">1</span><span class="pill">30 segundos</span></div><h3>Nos mandas una foto</h3><p>De tu última factura, por WhatsApp o por email.</p></li>
+      <li class="step"><div class="step-top"><span class="step-n">1</span><span class="pill">30 segundos</span></div><h3>Nos mandas una foto</h3><p>De tu última factura, desde el formulario o por WhatsApp.</p></li>
       <li class="step"><div class="step-top"><span class="step-n">2</span><span class="pill">24 horas</span></div><h3>Recibes tu informe</h3><p>Qué pagas de más, cuánto ahorrarías al año y qué hay que cambiar.</p></li>
       <li class="step"><div class="step-top"><span class="step-n">3</span><span class="pill">5 minutos</span></div><h3>Firmas desde el móvil</h3><p>Hacemos el cambio sin cortes de luz y vigilamos cada factura después.</p></li>
     </ol>
@@ -238,15 +248,23 @@
   <div class="wrap">
     <div class="copy">
       <h2>¿Cuánto estás pagando de más? <span>Lo sabrás mañana.</span></h2>
-      <p>Una foto de tu factura por WhatsApp. Nada más.</p>
+      <p>Una foto de tu factura. Nada más.</p>
     </div>
-    <form class="js-lead" novalidate>
+    <form class="js-lead" action="https://formsubmit.co/contacto@vatiojusto.com" method="POST" enctype="multipart/form-data" target="lead-sink" novalidate><input type="hidden" name="_subject" value="Nueva factura recibida"><input type="hidden" name="_template" value="table"><input type="hidden" name="_captcha" value="false"><input type="hidden" name="_next" value="https://vatiojusto.com/gracias.html"><input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
       <div class="row">
         <label class="field" for="f-empresa">Nombre del negocio<input id="f-empresa" name="empresa" type="text" autocomplete="organization" required></label>
+        <label class="field" for="f-email">Tu email<input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required></label>
+      </div>
+      <div class="field">Tu factura de luz
+        <label class="drop" for="f-factura">
+          <input id="f-factura" name="factura" type="file" accept="image/*,application/pdf" required>
+          <span class="drop-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg></span>
+          <span class="drop-txt"><b>Sube una foto o PDF</b><small>Desde el móvil puedes hacer la foto directamente</small></span>
+        </label>
       </div>
       <label class="consent" for="f-consent"><input id="f-consent" name="consent" type="checkbox" required><span>He leído la <a href="privacidad.html">política de privacidad</a>.</span></label>
       <p class="form-err" role="alert" aria-live="polite"></p>
-      <button class="btn btn-wa" type="submit" style="width:100%;min-height:58px;font-size:18px"><svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg>Enviar mi factura por WhatsApp</button>
+      <button class="btn btn-volt" type="submit" style="width:100%;min-height:58px;font-size:18px">Enviar mi factura<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
     </form>
   </div>
 </section>
@@ -266,6 +284,16 @@
       <a class="btn btn-wa js-wa" href="https://wa.me/34663192105"><svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg>WhatsApp</a>
       <a class="btn btn-dark" href="#revision">Subir mi factura</a>
     </div>
+  </div>
+</div>
+
+<iframe name="lead-sink" title="Envío del formulario" class="hp" tabindex="-1" aria-hidden="true"></iframe>
+<div class="modal" id="lead-ok" role="dialog" aria-modal="true" aria-labelledby="lead-ok-t" hidden>
+  <div class="modal-card">
+    <span class="modal-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12 5 5L20 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    <h2 id="lead-ok-t">¡Factura recibida!</h2>
+    <p class="js-ok-msg">La revisamos y te enviamos tu informe por email en menos de 24 horas.</p>
+    <button class="btn btn-dark js-ok-close" type="button">Perfecto</button>
   </div>
 </div>
 
