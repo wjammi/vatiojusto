@@ -88,6 +88,13 @@
     openModal(p.name);
   }
 
+  // clear the error message as soon as the visitor fixes something
+  document.querySelectorAll(".js-lead").forEach(function (form) {
+    ["input", "change"].forEach(function (ev) {
+      form.addEventListener(ev, function () { var err = form.querySelector(".form-err"); if (err) err.textContent = ""; });
+    });
+  });
+
   var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
   document.querySelectorAll(".js-lead").forEach(function (form) {
     form.addEventListener("submit", function (e) {
@@ -103,7 +110,6 @@
       if (!file) return fail("Sube una foto o PDF de tu factura.", el.factura);
       if (file.size > MAX_MB * 1024 * 1024) return fail("El archivo pesa demasiado (máx. " + MAX_MB + " MB). Prueba con una foto.", el.factura);
       if (!el.consent.checked) return fail("Marca la casilla de privacidad para continuar.", el.consent);
-      if (el._honey && el._honey.value) { e.preventDefault(); return; }
       err.textContent = "";
 
       var sector = el.sector ? el.sector.value : "";
