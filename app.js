@@ -4,7 +4,7 @@
   var MAX_MB = 10;
   // Google Apps Script web app that stores the invoice and runs the automatic AI review.
   // Empty = fall back to the FormSubmit email form.
-  var ENDPOINT = "";
+  var ENDPOINT = "https://script.google.com/macros/s/AKfycbyrtmMxj8IW60jlwKWI9Yqv9sox-6H-RBV6xazWMmA4dwPcSW7HCTKV9Dg9ozzxy7Qn/exec";
 
   function waUrl(text) {
     return "https://wa.me/" + WA + "?text=" + encodeURIComponent(text);
