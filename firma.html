@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Autorizar la gestión · Vatio Justo</title>
+<link rel="icon" href="favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="styles.css">
+<style>
+  body{background:var(--paper)}
+  .top{background:#0A0A0A;border-bottom:1px solid #1d1d1d}
+  .top .wrap{display:flex;align-items:center;justify-content:space-between;min-height:68px;max-width:760px}
+  .top small{color:#B8C0CC;font-size:13px;white-space:nowrap}
+  main.wrap{max-width:760px;padding-block:28px 64px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:24px;padding:28px;box-shadow:0 18px 44px rgba(19,33,58,.08)}
+  .card + .card{margin-top:18px}
+  h1{font-weight:900;font-size:clamp(26px,4.4vw,34px);line-height:1.15;margin-bottom:8px}
+  .sub{color:var(--body);font-size:16px}
+  .saving{display:flex;gap:14px;align-items:center;background:var(--navy);color:#fff;border-radius:18px;padding:16px 20px;margin:18px 0 4px}
+  .saving b{font-family:var(--display);font-weight:900;font-size:26px;color:var(--volt);white-space:nowrap}
+  .saving span{font-size:14px;color:#C9D2DE;line-height:1.4}
+  .steps{display:flex;gap:8px;margin:0 0 18px;padding:0;list-style:none;font-size:13px;color:var(--muted)}
+  .steps li{flex:1;border-top:4px solid var(--line);padding-top:6px}
+  .steps li.on{border-color:var(--volt);color:var(--ink);font-weight:700}
+  h2{font-weight:900;font-size:19px;margin:22px 0 10px}
+  h2:first-child{margin-top:0}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .grid .full{grid-column:1/-1}
+  .field{display:flex;flex-direction:column;gap:6px;min-width:0}
+  .field label{font-size:14px;font-weight:600}
+  .field .hint{font-size:12px;color:var(--muted)}
+  .field input{border:1.5px solid #CBD3DC;border-radius:14px;padding:12px 14px;min-height:50px;font-size:16px;background:#fff;color:var(--ink);width:100%}
+  .field input:focus{border-color:var(--navy);outline:none;box-shadow:0 0 0 3px rgba(123,244,13,.45)}
+  .field input[aria-invalid="true"]{border-color:#C0392B}
+  .drop{border:1.5px dashed #CBD3DC;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:8px;background:#FBFBF8}
+  .drop input{font-size:14px}
+  .drop ul{margin:0;padding-left:18px;font-size:13px;color:var(--body)}
+  .auth{font-size:14px;color:var(--body);background:var(--paper);border-radius:14px;padding:14px 16px;margin:6px 0 12px}
+  .auth ol{margin:6px 0 6px;padding-left:18px}
+  .check{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--body);margin:10px 0}
+  .check input{width:20px;height:20px;margin-top:2px;flex:none;accent-color:var(--navy)}
+  .check a{color:var(--green);font-weight:600}
+  .actions{margin-top:20px;display:flex;flex-direction:column;gap:10px}
+  .actions .btn{width:100%}
+  .err{background:#FDECEA;color:#8A1F11;border-radius:12px;padding:12px 14px;font-size:14px;display:none}
+  .err.show{display:block}
+  .note{font-size:13px;color:var(--muted);text-align:center}
+  .code{font-family:var(--mono);font-size:30px;letter-spacing:10px;text-align:center}
+  .link{background:none;border:0;color:var(--green);font-weight:700;cursor:pointer;padding:6px;font-size:15px}
+  .ok-ico{width:64px;height:64px;border-radius:50%;background:var(--volt);display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+  [hidden]{display:none!important}
+  @media (max-width:600px){.grid{grid-template-columns:1fr}.card{padding:20px;border-radius:20px}main.wrap{padding-inline:12px}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="/" aria-label="Vatio Justo"><img class="brand-logo" src="img/logo-horizontal.png" width="148" height="40" alt="Vatio Justo"></a>
+  <small>Coste cero para ti</small>
+</div></header>
+
+<main class="wrap">
+  <!-- loading / error -->
+  <section class="card" id="v-load"><p class="sub" id="load-msg">Cargando tu autorización…</p></section>
+
+  <!-- step 1: details -->
+  <form class="card" id="v-form" hidden novalidate>
+    <ol class="steps"><li class="on">1. Tus datos</li><li>2. Código</li><li>3. Listo</li></ol>
+    <h1>Autoriza la gestión de <span id="t-empresa"></span></h1>
+    <p class="sub">5 minutos. Hemos rellenado lo que ya aparece en tu factura: revísalo y completa el resto.</p>
+    <div class="saving" id="t-saving" hidden><b id="t-ahorro"></b><span>de ahorro estimado al año con lo que ya vemos en tu factura (preliminar, sin IVA)</span></div>
+
+    <h2>Empresa y suministro</h2>
+    <div class="grid">
+      <div class="field full"><label for="razon">Razón social o nombre del titular</label><input id="razon" name="razon" autocomplete="organization" required></div>
+      <div class="field"><label for="cif">CIF / NIF</label><input id="cif" name="cif" autocapitalize="characters" required></div>
+      <div class="field"><label for="cups">CUPS</label><input id="cups" name="cups" autocapitalize="characters" required><span class="hint">Empieza por ES, viene en tu factura</span></div>
+      <div class="field full"><label for="direccion">Dirección de suministro</label><input id="direccion" name="direccion" autocomplete="street-address" required></div>
+    </div>
+
+    <h2>Quien firma</h2>
+    <div class="grid">
+      <div class="field"><label for="firmante">Nombre y apellidos</label><input id="firmante" name="firmante" autocomplete="name" required></div>
+      <div class="field"><label for="dni">DNI / NIE</label><input id="dni" name="dni" autocapitalize="characters" required></div>
+      <div class="field"><label for="cargo">Cargo</label><input id="cargo" name="cargo" placeholder="Administrador, gerente…" required></div>
+      <div class="field"><label for="telefono">Teléfono</label><input id="telefono" name="telefono" type="tel" autocomplete="tel" inputmode="tel" required></div>
+      <div class="field full"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" inputmode="email" required><span class="hint">Aquí te llega el código para firmar</span></div>
+    </div>
+
+    <h2>Domiciliación</h2>
+    <div class="grid">
+      <div class="field full"><label for="iban">IBAN</label><input id="iban" name="iban" autocapitalize="characters" placeholder="ES00 0000 0000 0000 0000 0000" required><span class="hint">Solo para el contrato con la comercializadora. Nosotros no cobramos nada.</span></div>
+    </div>
+
+    <h2>Documentos</h2>
+    <div class="drop" id="drop">
+      <label for="docs"><b>DNI/NIE del firmante</b> (las dos caras). Si firmas por una sociedad, añade también las escrituras o poderes si los tienes a mano.</label>
+      <input id="docs" type="file" accept="image/*,application/pdf" multiple>
+      <ul id="doc-list"></ul>
+      <span class="hint">Fotos o PDF, hasta 4 archivos.</span>
+    </div>
+
+    <h2>Autorización</h2>
+    <div class="auth">
+      Autorizas a Wass Global Ventures S.L. (Vatio Justo), CIF B26779983, para este suministro, a:
+      <ol>
+        <li>Consultar tus datos de consumo y maxímetro en la distribuidora y en Datadis.</li>
+        <li>Pedir ofertas de luz y gas a comercializadoras en tu nombre.</li>
+        <li>Tramitar el cambio de comercializadora o el ajuste de potencia que te propongamos por escrito, con precios y condiciones, <b>una vez lo confirmes</b>.</li>
+      </ol>
+      Coste cero para ti: nos paga la comercializadora. Puedes revocarla cuando quieras escribiendo a contacto@vatiojusto.com.
+    </div>
+    <label class="check"><input type="checkbox" id="acepto"> <span>Acepto la autorización y confirmo que puedo firmar en nombre del titular.</span></label>
+    <label class="check"><input type="checkbox" id="privacidad"> <span>He leído la <a href="privacidad.html" target="_blank" rel="noopener">política de privacidad</a> y acepto que tratéis mis datos para esta gestión.</span></label>
+
+    <div class="actions">
+      <div class="err" id="err1" role="alert"></div>
+      <button class="btn btn-dark" type="submit" id="b1">Recibir código de firma</button>
+      <p class="note">Te enviamos un código de 6 cifras por email. Con él firmas.</p>
+    </div>
+  </form>
+
+  <!-- step 2: code -->
+  <form class="card" id="v-code" hidden novalidate>
+    <ol class="steps"><li class="on">1. Tus datos</li><li class="on">2. Código</li><li>3. Listo</li></ol>
+    <h1>Introduce el código</h1>
+    <p class="sub">Lo hemos enviado a <b id="t-mail"></b>. Caduca en 15 minutos.</p>
+    <div class="field" style="margin-top:18px"><label for="code">Código de 6 cifras</label>
+      <input id="code" class="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="\d{6}" required></div>
+    <div class="actions">
+      <div class="err" id="err2" role="alert"></div>
+      <button class="btn btn-dark" type="submit" id="b2">Firmar autorización</button>
+      <button class="link" type="button" id="resend">No me ha llegado: enviar otro código</button>
+      <button class="link" type="button" id="back">Corregir mis datos</button>
+    </div>
+  </form>
+
+  <!-- step 3: done -->
+  <section class="card" id="v-done" hidden>
+    <div class="ok-ico" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#13213A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+    <h1>Autorización firmada</h1>
+    <p class="sub">Te hemos enviado una copia por email. Ahora lo gestionamos nosotros: te mandaremos por escrito la oferta concreta, con precios y condiciones, y no cambiamos nada sin que la confirmes.</p>
+    <p class="sub" style="margin-top:14px">Dudas: <a href="mailto:contacto@vatiojusto.com" style="color:var(--green);font-weight:700">contacto@vatiojusto.com</a></p>
+  </section>
+</main>
+
+<script>
+(function () {
+  "use strict";
+  var ENDPOINT = "https://script.google.com/macros/s/AKfycbyl9H8u9SeeabiNye8l0TLc0pHaycLpTwAsysjo-Y7f7NULt1FnC9Z2njJs7A1rHSfd/exec";
+  var qs = new URLSearchParams(location.search), ID = qs.get("id") || "", T = qs.get("t") || "";
+  var $ = function (id) { return document.getElementById(id); };
+  var FIELDS = ["razon", "cif", "cups", "direccion", "firmante", "dni", "cargo", "telefono", "email", "iban"];
+  var docs = [], docsSent = false, lastData = null;
+
+  function show(v) { ["v-load", "v-form", "v-code", "v-done"].forEach(function (x) { $(x).hidden = x !== v; }); window.scrollTo(0, 0); }
+  function fail(el, msg) { el.textContent = msg; el.classList.add("show"); }
+  function clear(el) { el.textContent = ""; el.classList.remove("show"); }
+  function eur(n) { return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €"; }
+  function api(body) {
+    return fetch(ENDPOINT, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(body) })
+      .then(function (r) { return r.json(); });
+  }
+
+  // ---- validation (same rules as the server) ----
+  function up(s) { return String(s || "").replace(/[\s.-]/g, "").toUpperCase(); }
+  function validIban(s) {
+    s = up(s); if (!/^[A-Z]{2}\d{2}[A-Z0-9]{10,30}$/.test(s)) return false;
+    var x = (s.slice(4) + s.slice(0, 4)).replace(/[A-Z]/g, function (c) { return String(c.charCodeAt(0) - 55); }), m = 0;
+    for (var i = 0; i < x.length; i++) m = (m * 10 + Number(x[i])) % 97;
+    return m === 1;
+  }
+  function validId(s) {
+    s = up(s); var L = "TRWAGMYFPDXBNJZSQVHLCKE";
+    if (/^\d{8}[A-Z]$/.test(s)) return L[Number(s.slice(0, 8)) % 23] === s[8];
+    if (/^[XYZ]\d{7}[A-Z]$/.test(s)) return L[Number("XYZ".indexOf(s[0]) + s.slice(1, 8)) % 23] === s[8];
+    return /^[ABCDEFGHJNPQRSUVW]\d{7}[0-9A-J]$/.test(s);
+  }
+  var RULES = {
+    razon: [function (v) { return v.trim().length > 1; }, "Falta la razón social."],
+    cif: [validId, "Revisa el CIF/NIF."],
+    cups: [function (v) { return /^ES\d{16}[A-Z]{2}(\d[FPCRXYZ0-9])?$/.test(up(v)); }, "Revisa el CUPS: empieza por ES y lo tienes en la factura."],
+    direccion: [function (v) { return v.trim().length > 4; }, "Falta la dirección de suministro."],
+    firmante: [function (v) { return v.trim().length > 3; }, "Falta el nombre de quien firma."],
+    dni: [validId, "Revisa el DNI/NIE."],
+    cargo: [function (v) { return v.trim().length > 1; }, "Falta el cargo."],
+    telefono: [function (v) { return v.replace(/\D/g, "").length >= 9; }, "Revisa el teléfono."],
+    email: [function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()); }, "Revisa el email."],
+    iban: [validIban, "Revisa el IBAN."]
+  };
+  FIELDS.forEach(function (f) { $(f).addEventListener("blur", function () { if (this.value) this.setAttribute("aria-invalid", RULES[f][0](this.value) ? "false" : "true"); }); });
+
+  // ---- documents (images compressed in the browser) ----
+  function readFile(file) {
+    return new Promise(function (ok, ko) {
+      var raw = function () {
+        return new Promise(function (res) { var fr = new FileReader(); fr.onload = function () { res({ name: file.name, type: file.type || "application/octet-stream", data: String(fr.result).split(",")[1] }); }; fr.onerror = ko; fr.readAsDataURL(file); });
+      };
+      if (!/^image\/(jpeg|png|webp|heic|heif)/.test(file.type)) { raw().then(ok); return; }
+      var url = URL.createObjectURL(file), img = new Image();
+      img.onload = function () {
+        var s = Math.min(1, 1800 / Math.max(img.width, img.height)), c = document.createElement("canvas");
+        c.width = Math.round(img.width * s); c.height = Math.round(img.height * s);
+        c.getContext("2d").drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(url);
+        ok({ name: file.name.replace(/\.[^.]+$/, "") + ".jpg", type: "image/jpeg", data: c.toDataURL("image/jpeg", 0.85).split(",")[1] });
+      };
+      img.onerror = function () { URL.revokeObjectURL(url); raw().then(ok); };
+      img.src = url;
+    });
+  }
+  $("docs").addEventListener("change", function () {
+    var files = Array.prototype.slice.call(this.files, 0, 4);
+    $("doc-list").innerHTML = "";
+    Promise.all(files.map(readFile)).then(function (list) {
+      docs = list.filter(function (d) { return d.data.length < 8 * 1024 * 1024 * 1.37; });
+      docsSent = false;
+      $("doc-list").innerHTML = docs.map(function (d) { return "<li>" + d.name.replace(/[<>&]/g, "") + "</li>"; }).join("");
+      if (docs.length < files.length) fail($("err1"), "Algún archivo pesa demasiado (máx. 8 MB).");
+    });
+  });
+
+  // ---- load ----
+  if (!ID || !T) { $("load-msg").textContent = "Este enlace no es válido. Escríbenos a contacto@vatiojusto.com."; return; }
+  fetch(ENDPOINT + "?a=lead&id=" + encodeURIComponent(ID) + "&t=" + encodeURIComponent(T))
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      if (!d.ok) { $("load-msg").textContent = d.error || "Este enlace no es válido."; return; }
+      if (d.firmado) { $("v-done").querySelector("h1").textContent = "Esta autorización ya está firmada"; show("v-done"); return; }
+      $("t-empresa").textContent = d.empresa;
+      if (d.ahorro) { $("t-ahorro").textContent = "~" + eur(d.ahorro); $("t-saving").hidden = false; }
+      var pre = { razon: d.titular || d.empresa, cif: d.cif, cups: d.cups, direccion: d.direccion, email: d.email };
+      Object.keys(pre).forEach(function (k) { if (pre[k]) $(k).value = pre[k]; });
+      show("v-form");
+    })
+    .catch(function () { $("load-msg").textContent = "No hemos podido cargar la página. Revisa tu conexión y vuelve a abrir el enlace."; });
+
+  // ---- step 1 ----
+  function collect() {
+    var d = {}; FIELDS.forEach(function (f) { d[f] = $(f).value.trim(); });
+    d.acepto = $("acepto").checked; d.privacidad = $("privacidad").checked; return d;
+  }
+  function sendCode(data, withDocs, btn, errEl) {
+    btn.disabled = true; var label = btn.textContent; btn.textContent = "Enviando…";
+    return api({ action: "codigo", id: ID, t: T, data: data, docs: withDocs ? docs : [] })
+      .then(function (r) {
+        btn.disabled = false; btn.textContent = label;
+        if (!r.ok) { fail(errEl, r.error || "No se ha podido enviar el código."); return false; }
+        if (withDocs) docsSent = true;
+        $("t-mail").textContent = r.email; return true;
+      })
+      .catch(function () { btn.disabled = false; btn.textContent = label; fail(errEl, "Sin conexión. Inténtalo de nuevo."); return false; });
+  }
+  $("v-form").addEventListener("submit", function (e) {
+    e.preventDefault(); clear($("err1"));
+    var d = collect(), bad = [];
+    FIELDS.forEach(function (f) { var ok = RULES[f][0](d[f]); $(f).setAttribute("aria-invalid", ok ? "false" : "true"); if (!ok) bad.push(RULES[f][1]); });
+    if (!docs.length && !docsSent) bad.push("Adjunta el DNI/NIE de quien firma.");
+    if (!d.acepto || !d.privacidad) bad.push("Marca las dos casillas para continuar.");
+    if (bad.length) { fail($("err1"), bad.join(" ")); var first = document.querySelector('[aria-invalid="true"]'); if (first) first.focus(); return; }
+    lastData = d;
+    sendCode(d, !docsSent, $("b1"), $("err1")).then(function (ok) { if (ok) { show("v-code"); $("code").focus(); } });
+  });
+
+  // ---- step 2 ----
+  $("code").addEventListener("input", function () { this.value = this.value.replace(/\D/g, "").slice(0, 6); });
+  $("resend").addEventListener("click", function () {
+    clear($("err2"));
+    var b = this; sendCode(lastData, false, b, $("err2")).then(function (ok) { if (ok) fail($("err2"), "Te hemos enviado un código nuevo."); });
+  });
+  $("back").addEventListener("click", function () { show("v-form"); });
+  $("v-code").addEventListener("submit", function (e) {
+    e.preventDefault(); clear($("err2"));
+    var code = $("code").value;
+    if (!/^\d{6}$/.test(code)) { fail($("err2"), "El código tiene 6 cifras."); return; }
+    var b = $("b2"); b.disabled = true; b.textContent = "Firmando…";
+    api({ action: "confirmar", id: ID, t: T, code: code, ua: navigator.userAgent })
+      .then(function (r) {
+        b.disabled = false; b.textContent = "Firmar autorización";
+        if (!r.ok) { fail($("err2"), r.error || "No se ha podido firmar."); return; }
+        show("v-done");
+      })
+      .catch(function () { b.disabled = false; b.textContent = "Firmar autorización"; fail($("err2"), "Sin conexión. Inténtalo de nuevo."); });
+  });
+})();
+</script>
+</body>
+</html>
